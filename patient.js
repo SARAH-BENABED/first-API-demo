@@ -34,6 +34,11 @@ function showEditForm(patient) {
 }
 
 function toggleRecords(patient,li) {
+    const existingInput = li.querySelector(".input") ;
+    if(existingInput) {
+        existingInput.remove() ;
+    }
+
     const existing = li.querySelector(".records") ;
     if(existing) {
         existing.remove() ;
@@ -75,6 +80,10 @@ function toggleRecords(patient,li) {
 }
 
 function showAddRecordForm(patientId,li) {
+    const existingRecords = li.querySelector(".records") ;
+    if(existingRecords) {
+        existingRecords.remove() ;
+    }
     const existing = li.querySelector(".input") ;
     if(existing) {
         return ;
@@ -143,7 +152,7 @@ async function loadPatients() {
         nameSpan.textContent = p.name ;
 
         const ageSpan = document.createElement("span") ;
-        ageSpan.textContent = p.age ;
+        ageSpan.textContent = p.age+" yo" ;
 
         const idSpan = document.createElement("span") ;
         idSpan.textContent = p.id ;
