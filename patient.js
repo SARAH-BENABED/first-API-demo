@@ -50,11 +50,21 @@ function toggleRecords(patient,li) {
         recordsDiv.textContent = "All Records :" ;
         patient.records.forEach(r=>{
             const recordItem = document.createElement("div") ;
-            recordItem.textContent = r.description + " - " + r.id ;
+            recordItem.classList.add("record-row") ;
+
+            const descSpan = document.createElement("span") ;
+            descSpan.textContent = r.description ;
+
+            const idSpan = document.createElement("span") ;
+            idSpan.textContent = r.id ;
 
             const deleteBtn = document.createElement("button") ;
+            deleteBtn.classList.add("delete-btn")
             deleteBtn.textContent = "Delete Record" ;
             deleteBtn.onclick = () => deleteRecord(r.id) ;
+
+            recordItem.appendChild(descSpan) ;
+            recordItem.appendChild(idSpan) ;
 
             recordItem.appendChild(deleteBtn) ;
             recordsDiv.appendChild(recordItem) ;

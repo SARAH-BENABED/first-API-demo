@@ -11,13 +11,25 @@
     padding: 0;
 }
 
-.patient-row{
+.patient-row, .record-row{
     display: grid;
     grid-template-columns: 150px 80px 60px 100px 100px 140px 120px;
     gap: 10px;
     margin-bottom: 30px;
+    align-items: center;
   
-}  
+} 
+.record-row{
+    display: grid;
+    grid-template-columns: 150px 80px 100px 100px 100px 140px 120px;
+    gap: 10px;
+    margin-bottom: 30px;
+    align-items: center;
+} 
+.records{
+    margin-top: 10px;
+    margin-left: 20px;
+}
 .patient-row button {
     padding : 8px ;
     color : white ;
