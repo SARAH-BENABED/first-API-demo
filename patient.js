@@ -6,7 +6,7 @@ function showMessage(message) {
    box.style.display = "block" ;
    setTimeout(()=>{
       box.style.display = "none" ;
-   }, 2000) ;
+   }, 3000) ;
 
 }
 
