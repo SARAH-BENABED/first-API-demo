@@ -69,15 +69,21 @@ function showAddRecordForm(patientId,li) {
     if(existing) {
         return ;
     }
+    const inputDiv = document.createElement("div") ;
+    inputDiv.className = "input" ;
+
     const input = document.createElement("input") ;
-    input.className = "input" ;
     input.placeholder = "Enter description" ;
 
     const saveBtn = document.createElement("button") ;
     saveBtn.textContent = "Save" ;
+
+    inputDiv.appendChild(input) ;
+    inputDiv.appendChild(saveBtn) ;
+
     saveBtn.onclick = () => addRecord(patientId, input.value) ;
-    li.appendChild(input) ;
-    li.appendChild(saveBtn) ;
+ 
+    li.appendChild(inputDiv) ;
 }
 
 // Post Request 
@@ -91,7 +97,7 @@ async function addPatient() {
     await fetch(API_URL,{
         method : "POST",
         headers : {
-            "content-Type" : "application/json" ,
+            "Content-Type" : "application/json" ,
         },
         body : JSON.stringify(patient) ,
     }) ;
@@ -109,23 +115,37 @@ async function loadPatients() {
 
     patients.forEach(p => {
         const li = document.createElement("li") ;
+        li.className = "patient-row" ;
 
         const deleteBtn = document.createElement("button") ;
         const updateBtn = document.createElement("button") ;
         const showRecordsBtn = document.createElement("button") ;
         const addRecordBtn = document.createElement("button") ;
 
+        deleteBtn.classList.add("delete-btn") ;
+
         deleteBtn.textContent = "Delete" ;
         updateBtn.textContent = "Update" ;
         showRecordsBtn.textContent = "Show Records" ;
         addRecordBtn.textContent = "Add Record" ;
 
-        li.textContent = p.name + " - " + p.age + " - " + p.id ;
+        const nameSpan = document.createElement("span") ;
+        nameSpan.textContent = p.name ;
+
+        const ageSpan = document.createElement("span") ;
+        ageSpan.textContent = p.age ;
+
+        const idSpan = document.createElement("span") ;
+        idSpan.textContent = p.id ;
 
         deleteBtn.onclick = () => deletePatient(p.id) ;
         updateBtn.onclick = () => showEditForm(p) ;
         showRecordsBtn.onclick = () => toggleRecords(p,li) ;
         addRecordBtn.onclick = () => showAddRecordForm(p.id,li) ;
+
+        li.appendChild(nameSpan) ;
+        li.appendChild(ageSpan) ;
+        li.appendChild(idSpan) ;
 
         li.appendChild(deleteBtn) ;
         li.appendChild(updateBtn) ;
@@ -155,7 +175,7 @@ async function updatePatient(id,name,age) {
     await fetch(API_URL + "/" + id , {
         method : "PUT" ,
         headers : {
-            "content-Type" : "application/json" ,
+            "Content-Type" : "application/json" ,
         },
         body : JSON.stringify(updatedPatient) ,
     }) ;
