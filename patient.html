@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>Patient Manager</title>
+       <style>
+           #messageBox {
+               bottom: 20px;
+               right: 20px;
+               background-color: rgb(51, 235, 51);
+               color: white;
+               padding: 15px;
+               border-radius: 8px;
+               display: none;
+           }
+       </style>
+    </head>
+    <body>
+        <h1>   Patient Manager </h1>
+        <h2> Add Patient </h2>
+        <input id="name" placeholder="Enter name">
+        <input id="age" placeholder="Enter age">
+        <button onclick="addPatient()"> Add Patient </button>
+        <h2>All Patients</h2>
+        <button onclick="loadPatients()"> Load Patients </button>
+        <ul id="patientsList"></ul>
+        <div id="messageBox"></div>
+        <script src="patient.js"></script>
+    </body>
+</html>
