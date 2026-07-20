@@ -1,0 +1,42 @@
+body {
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: Arial,  sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.heading {
+    margin-bottom: 40px;
+    
+}
+.container{
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: rgb(0, 33, 25);
+    box-shadow: 8px 8px 25px rgba(0,0,0,0.3);
+}
+.input {
+    padding:8px 16px ;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+.submit-btn {
+    padding: 10px 20px;
+    
+    color : white ;
+    background-color: rgb(105,169,214);
+    border: none;
+    border-radius: 10px;
+    cursor : pointer ;
+    transition : opacity 0.4s;
+}
+.submit-btn:hover {
+    opacity: 0.6;
+}

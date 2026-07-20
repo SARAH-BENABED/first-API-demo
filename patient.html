@@ -1,19 +1,33 @@
 <!DOCTYPE html>
+
 <html>
+
     <head>
+
        <title>Patient Manager</title>
-       <link rel="stylesheet" href="patient.css">
+
+       <link rel="stylesheet" href="styles/patient.css">
+
     </head>
+
     <body>
+
         <h1>   Patient Manager </h1>
+
         <h2> Add Patient </h2>
-        <input id="name" placeholder="Enter name">
-        <input id="age" placeholder="Enter age">
+
+        <input id="name" placeholder="Enter name" class="inputField ">
+        <input id="age" placeholder="Enter age"  class="inputField">
         <button onclick="addPatient()"  class="add-patient-btn"> Add Patient </button>
+
         <h2>All Patients</h2>
+
         <button onclick="loadPatients()"  class="utility-btn"> Load Patients </button>
         <ul id="patientsList"></ul>
         <div id="messageBox"></div>
+
         <script src="patient.js"></script>
+
     </body>
+    
 </html>

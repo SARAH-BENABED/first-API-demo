@@ -30,7 +30,7 @@
     margin-top: 10px;
     margin-left: 20px;
 }
-.patient-row button, .add-patient-btn, .utility-btn{
+.patient-row button, .add-patient-btn, .utility-btn, .save-update-btn{
     padding : 8px ;
     color : white ;
     background-color:  #4CAF50;
@@ -47,4 +47,14 @@
 }
 .utility-btn{
     background-color: rgb(74, 109, 238);
+}
+.inputField{
+    padding:7px 12px ;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+body{
+    font-family: Arial,  sans-serif;
 }

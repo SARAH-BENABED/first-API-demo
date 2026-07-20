@@ -1,25 +1,38 @@
+const token = localStorage.getItem("token") ;
+
+if(!token) {
+    window.location.href = "login.html" ;
+
+}
+
+
 const API_URL = "http://localhost:8080/patients";
 
 function showMessage(message) {
-   const box = document.getElementById("messageBox") ;
-   box.textContent = message ;
-   box.style.display = "block" ;
-   setTimeout(()=>{
-      box.style.display = "none" ;
-   }, 2000) ;
+    
+   if(message !== "") {
+        const box = document.getElementById("messageBox") ;
+        box.textContent = message ;
+        box.style.display = "block" ;
+        setTimeout(()=>{
+            box.style.display = "none" ;
+        }, 2000) ;
+   }
 
 }
 
 function showEditForm(patient) {
     const newName = document.createElement("input") ;
     newName.value = patient.name ;
+    newName.classList.add("inputField") ;
 
     const newAge = document.createElement("input") ;
     newAge.value = patient.age ;
+    newAge.classList.add("inputField") ;
 
     const saveBtn = document.createElement("button") ;
     saveBtn.textContent = "Save" ;
-
+    saveBtn.classList.add("save-update-btn") ;
     saveBtn.onclick = ()=> {
         updatePatient(patient.id,newName.value,newAge.value) ;
     }
@@ -93,6 +106,7 @@ function showAddRecordForm(patientId,li) {
 
     const input = document.createElement("input") ;
     input.placeholder = "Enter description" ;
+    input.classList.add("inputField") ;    
 
     const saveBtn = document.createElement("button") ;
     saveBtn.textContent = "Save" ;
@@ -113,20 +127,48 @@ async function addPatient() {
         name : name ,
         age : parseInt(age) ,
     } ;
-    await fetch(API_URL,{
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json" ,
-        },
-        body : JSON.stringify(patient) ,
-    }) ;
-    showMessage("Patient Added !")
-    loadPatients() ;
+
+    try {
+        const response = await fetch(API_URL,{
+            method : "POST",
+            headers : {    
+                "Content-Type" : "application/json" ,
+                "Authorization" : "Bearer " + token
+            },
+            body : JSON.stringify(patient) ,
+        }) ;
+
+        if(!response.ok) {
+            const errorText = await response.text() ;
+            throw new Error(errorText) ;
+        }
+
+        showMessage("Patient Added !") ;
+        loadPatients() ;
+
+    }catch(error) {
+        showMessage(error.message) ;
+
+    }
+
 }
 
 // GET Request 
 async function loadPatients() {
-    const response = await fetch(API_URL) ; 
+
+    const response = await fetch(API_URL,{
+        method : "GET",
+        headers : {    
+            "Authorization" : "Bearer " + token
+        }  
+    }) ;
+
+    if (!response.ok) {
+        window.location.href = "login.html" ;
+        localStorage.removeItem("token")
+        return ;
+    }
+
     const patients = await response.json() ;
     
     const list = document.getElementById("patientsList") ;
@@ -176,11 +218,26 @@ async function loadPatients() {
 }
 
 async function deletePatient(id) {
-    await fetch(API_URL + "/" + id , {
-        method : "DELETE" ,
-    }) ;
-    showMessage("Patent Deleted !") ;
-    loadPatients() ;
+    try {
+        const response = await fetch(API_URL + "/" + id , {
+            method : "DELETE" ,
+            headers : {    
+                "Authorization" : "Bearer " + token
+            },
+        }) ;
+
+        if(!response.ok) {
+            const errorText = await response.text() ;
+            throw new Error(errorText) ;
+        }
+
+        showMessage("Patent Deleted !") ;
+        loadPatients() ;
+
+    }catch(error) {
+        showMessage(error.message) ;
+
+    } 
 
 }
 
@@ -191,40 +248,81 @@ async function updatePatient(id,name,age) {
         age : parseInt(age) ,
         id : id ,
     } ;
-    await fetch(API_URL + "/" + id , {
-        method : "PUT" ,
-        headers : {
-            "Content-Type" : "application/json" ,
-        },
-        body : JSON.stringify(updatedPatient) ,
-    }) ;
+    try {
+        const response = await fetch(API_URL + "/" + id , {
+            method : "PUT" ,
+            headers : {
+                "Content-Type" : "application/json" ,
+                "Authorization" : "Bearer " + token
+            },
+            body : JSON.stringify(updatedPatient) ,
+        }) ;
+        
+        if(!response.ok) {
+            const errorText = await response.text() ;
+            throw new Error(errorText) ;
+        }
+        showMessage("Patient Updated !") ;
+        loadPatients() ;
 
-    showMessage("Patient Updated !") ;
-    loadPatients() ;
+    }catch(error) {
+        showMessage(error.message) ;
+
+    }
+
 }
 
 async function addRecord(patientId, description) {
     const record = {
         description : description ,
     } ;
+     
+    try {
+        const response = await fetch("http://localhost:8080/records/patient/"+patientId,{
+            method : "POST",
+            headers : {
+                "Content-Type" : "application/json",
+                "Authorization" : "Bearer " + token
+            },
+            body : JSON.stringify(record),
 
-    await fetch("http://localhost:8080/records/patient/"+patientId,{
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json"
-        },
-        body : JSON.stringify(record),
+        }) ;
 
-    }) ;
+        if(!response.ok) {
+            const errorText = await response.text() ;
+            throw new Error(errorText) ;
+        }
+        showMessage("Record Added") ;
+        loadPatients() ;
 
-    showMessage("Record Added") ;
-    loadPatients() ;
+    }catch(error) {
+        showMessage(error.message) ;
+
+    }
+
 }
 
 async function deleteRecord(recordId) {
-    await fetch("http://localhost:8080/records/"+recordId,{
-        method : "DELETE" ,
-    }) ;
-    showMessage("Record Deleted") ;
-    loadPatients() ;
+
+    try {
+        const response = await fetch("http://localhost:8080/records/"+recordId,{
+            method : "DELETE" ,
+            headers : {    
+                "Authorization" : "Bearer " + token
+            },
+        }) ;
+        if(!response.ok) {
+            const errorText = await response.text() ;
+            throw new Error(errorText) ;
+        }
+        showMessage("Record Deleted") ;
+        loadPatients() ;
+    
+    }catch(error) {
+        showMessage(error.message) ;
+
+    }
+
 }
+
+loadPatients() ;
