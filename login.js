@@ -7,7 +7,7 @@ form.addEventListener("submit", async function(event) {
     const password = document.getElementById("password").value ;
 
     try {
-        const response = await fetch("http://localhost:8080/auth/login",{
+        const response = await fetch("https://first-api-demo-spring-bot-2.onrender.com/auth/login",{
             method : "POST",
             headers : {
                 "Content-Type": "application/json"

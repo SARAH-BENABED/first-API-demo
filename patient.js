@@ -1,12 +1,11 @@
 const token = localStorage.getItem("token") ;
 
 if(!token) {
-    window.location.href = "login.html" ;
+    window.location.href = "index.html" ;
 
 }
 
-
-const API_URL = "http://localhost:8080/patients";
+const API_URL = "https://first-api-demo-spring-bot-2.onrender.com/patients";
 
 function showMessage(message) {
     
@@ -164,8 +163,8 @@ async function loadPatients() {
     }) ;
 
     if (!response.ok) {
-        window.location.href = "login.html" ;
-        localStorage.removeItem("token")
+        localStorage.removeItem("token") ;
+        window.location.href = "index.html" ;
         return ;
     }
 
@@ -278,7 +277,7 @@ async function addRecord(patientId, description) {
     } ;
      
     try {
-        const response = await fetch("http://localhost:8080/records/patient/"+patientId,{
+        const response = await fetch("https://first-api-demo-spring-bot-2.onrender.com/records/patient/"+patientId,{
             method : "POST",
             headers : {
                 "Content-Type" : "application/json",
@@ -305,7 +304,7 @@ async function addRecord(patientId, description) {
 async function deleteRecord(recordId) {
 
     try {
-        const response = await fetch("http://localhost:8080/records/"+recordId,{
+        const response = await fetch("https://first-api-demo-spring-bot-2.onrender.com/records/"+recordId,{
             method : "DELETE" ,
             headers : {    
                 "Authorization" : "Bearer " + token
